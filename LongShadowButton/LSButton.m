@@ -36,8 +36,6 @@ static CGFloat const kButtonShadowYMovement = 60.0f;
 			frame.size.height += kButtonShadowYMovement;
 			frame;
 		});
-		
-		_longShadowLayer.path = [self longShadowPath];
 	}
 	
 	return _longShadowLayer;
@@ -81,9 +79,11 @@ static CGFloat const kButtonShadowYMovement = 60.0f;
 {
 	UIBezierPath *shadowPath = [UIBezierPath bezierPath];
 	
+	CGFloat cornerOffset = self.layer.cornerRadius / 2.0f;
+	
 	CGPoint startPoint = CGPointZero;
 	startPoint.x += 1.0f;
-	startPoint.y = CGRectGetHeight(self.frame) - 1.0f;
+	startPoint.y = CGRectGetHeight(self.frame) - cornerOffset;
 	
 	//	Move to left bottom point of the buttom
 	[shadowPath moveToPoint:startPoint];
@@ -112,7 +112,7 @@ static CGFloat const kButtonShadowYMovement = 60.0f;
 	
 	[shadowPath addLineToPoint:({
 		CGPoint point = CGPointZero;
-		point.x = CGRectGetWidth(self.frame) - 1.0f;
+		point.x = CGRectGetWidth(self.frame) - cornerOffset;
 		point.y = 1.0f;
 		point;
 	})];
@@ -136,6 +136,8 @@ static CGFloat const kButtonShadowYMovement = 60.0f;
 
 - (void)layoutSubviews
 {
+	self.longShadowLayer.path = [self longShadowPath];
+	
 	self.gradientLayer.frame = self.longShadowLayer.frame;
 	
     self.gradientLayer.colors = self.gradientColors;

@@ -8,6 +8,7 @@
 
 #import "LSBDViewController.h"
 #import "LSButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface LSBDViewController ()
 
@@ -22,9 +23,26 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	self.shadowButton.layer.borderColor = [UIColor blueColor].CGColor;
+	CAGradientLayer *backgroundGradient = [CAGradientLayer layer];
+	backgroundGradient.frame = self.view.frame;
+	backgroundGradient.colors = [NSArray arrayWithObjects:
+								 (id)[UIColor blueColor].CGColor,
+								 (id)[UIColor redColor].CGColor,
+								 nil];
+	
+	backgroundGradient.masksToBounds = YES;
+	
+	
+	[self.view.layer insertSublayer:backgroundGradient atIndex:0];
+	
+	self.shadowButton.gradientColors = [NSArray arrayWithObjects:
+										(id)[[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor,
+										(id)[[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor,
+										nil];
+	
+	self.shadowButton.layer.borderColor = [UIColor whiteColor].CGColor;
 	self.shadowButton.layer.borderWidth = 2.5f;
-	self.shadowButton.layer.cornerRadius = 2.5f;
+	self.shadowButton.layer.cornerRadius = 5.0f;
 }
 
 - (void)didReceiveMemoryWarning
